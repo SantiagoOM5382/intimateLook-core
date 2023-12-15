@@ -10,10 +10,10 @@ Girl.init({
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4
   },
-  image: {
-    type: DataTypes.STRING,
+  images: {
+    type: DataTypes.ARRAY(DataTypes.TEXT),
     allowNull: true,
-    defaultValue: null
+    defaultValue: []
   },
   title: {
     type: DataTypes.STRING,
@@ -29,12 +29,12 @@ Girl.init({
     type: DataTypes.STRING,
     allowNull: true
   },
-  state: {
-    type: DataTypes.STRING,
+  state_id: {
+    type: DataTypes.UUID,
     allowNull: true
   },
-  city: {
-    type: DataTypes.STRING,
+  city_id: {
+    type: DataTypes.UUID,
     allowNull: true
   },
   district: {

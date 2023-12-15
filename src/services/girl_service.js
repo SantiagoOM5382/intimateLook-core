@@ -4,18 +4,43 @@ const GirlRepository = require('../repositories/girs_repository')
 const Admin = require('../database/models/admin')
 const Girl = require('../database/models/girl')
 
-
 class GirlService extends Service {
   constructor () {
     super(new GirlRepository())
     this.repository = new GirlRepository()
   }
 
-  async getAll() {
-    const girls = await this.repository.getAll();
-    return girls;
-  }
 
+
+  async getAll(filters) {
+    const state = filters.state;
+    const city = filters.city;
+    const category = filters.category;
+  
+    if (state && city && category) {
+      const girl = await Girl.findAll({ where: { state_id: state, city_id: city, category: category } });
+      return girl;
+    } else if (state && city) {
+      const girl = await Girl.findAll({ where: { state_id: state, city_id: city } });
+      return girl;
+    } else if (state && category) {
+      const girl = await Girl.findAll({ where: { state_id: state, category: category } });
+      return girl;
+    } else if (state) {
+      const girl = await Girl.findAll({ where: { state_id: state } });
+      return girl;
+    } else if (city) {
+      const girl = await Girl.findAll({ where: { city_id: city } });
+      return girl;
+    } else if (category) {
+      const girl = await Girl.findAll({ where: { category: category } });
+      return girl;
+    } else {
+      const girl = await this.repository.getAll();
+      return girl;
+    }
+  }
+  
   async getById (id) {
     const girl = this.repository.getById(id)
     if (!girl) throw new NotFoundError('girl not found')
@@ -30,8 +55,6 @@ class GirlService extends Service {
     return girls;
   }
   
-
-
   async create(data, admin_id) {
     const admin = await Admin.findByPk(admin_id);
     if (!admin) {
