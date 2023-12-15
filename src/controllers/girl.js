@@ -6,11 +6,12 @@ class GirlController {
     this.service = new GirlService()
   }
 
-  async getAll (req) {
-    const girls = await this.service.getAll()
-    return [girls, 'List of girls retrieved successfully']
+  async getAll(req) {
+    const filters = req.query;
+    const girls = await this.service.getAll(filters);
+    return [girls, 'good'];
   }
-
+  
   async getById (req) {
     const id = req.params.id
     const girl = await this.service.getById(id)
